@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataTableModule, SharedModule } from 'primeng/primeng';
+//import { DataTableModule, SharedModule } from 'primeng/primeng';
 import { SchoolYear } from '../dto/SchoolYear';
 
 @Component({
