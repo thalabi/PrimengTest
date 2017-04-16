@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
-import { InputTextModule, DataTableModule, ButtonModule, SharedModule } from 'primeng/primeng';
+import { InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -12,6 +12,7 @@ import { _404Component } from './404.component';
 import { InputTextComponent } from './input-text/input-text.component';
 import { DatatableBasicComponent } from './datatable-basic/datatable-basic.component';
 import { ButtonComponent } from './button/button.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ButtonComponent } from './button/button.component';
     _404Component,
     InputTextComponent,
     DatatableBasicComponent,
-    ButtonComponent
+    ButtonComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,7 @@ import { ButtonComponent } from './button/button.component';
     HttpModule,
     AppRouting,
     BrowserAnimationsModule,
-    InputTextModule, DataTableModule, SharedModule, ButtonModule
+    InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
