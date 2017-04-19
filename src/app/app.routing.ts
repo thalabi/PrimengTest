@@ -4,6 +4,7 @@ import { InputTextComponent } from './input-text/input-text.component';
 import { DatatableBasicComponent } from './datatable-basic/datatable-basic.component';
 import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
 import { _404Component } from './404.component';
 
 const routes: Routes = [
@@ -11,8 +12,8 @@ const routes: Routes = [
     {path: 'inputText',  component: InputTextComponent},
     {path: 'datatableBasic', component: DatatableBasicComponent},
     {path: 'button', component: ButtonComponent},
-    {path: 'dialog', component: DialogComponent}
-    ,
+    {path: 'dialog', component: DialogComponent},
+    {path: 'datatableCrud', component: DatatableCrudComponent},
     {path: '**',            component: _404Component}
 ]
 

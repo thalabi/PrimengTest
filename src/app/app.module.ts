@@ -13,6 +13,7 @@ import { InputTextComponent } from './input-text/input-text.component';
 import { DatatableBasicComponent } from './datatable-basic/datatable-basic.component';
 import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
+import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { DialogComponent } from './dialog/dialog.component';
     InputTextComponent,
     DatatableBasicComponent,
     ButtonComponent,
-    DialogComponent
+    DialogComponent,
+    DatatableCrudComponent
   ],
   imports: [
     BrowserModule,
