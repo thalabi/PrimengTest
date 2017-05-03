@@ -1,3 +1,13 @@
-<p>
-  datatable-crud works!
-</p>
+<p-dataTable [value]="schoolYears" selectionMode="single"
+  [(selection)]="selectedSchoolYear" (onRowSelect)="onRowSelect($event)"
+    [paginator]="true" rows="15" [responsive]="true">
+    <p-header>School Year Maintenance</p-header>
+    <p-column field="schoolYear" header="Label" [sortable]="true"></p-column>
+    <p-column field="startDateFormatted" header="Start" [sortable]="true"></p-column>
+    <p-column field="endDateFormatted" header="End" [sortable]="true"></p-column>
+    <p-footer><div class="ui-helper-clearfix" style="width:100%">
+                <button type="button" pButton icon="fa-plus" style="float:left"
+                  (click)="showDialogToAdd()" label="Add"></button>
+              </div>
+    </p-footer>
+</p-dataTable>

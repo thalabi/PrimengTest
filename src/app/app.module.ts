@@ -15,6 +15,9 @@ import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
 
+import { DataService } from './data.service';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +36,9 @@ import { DatatableCrudComponent } from './datatable-crud/datatable-crud.componen
     BrowserAnimationsModule,
     InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule
   ],
-  providers: [],
+  providers: [
+    DataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
