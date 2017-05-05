@@ -45,14 +45,11 @@ export class DatatableCrudComponent implements OnInit {
         //this.messageService.error(error);
       }});
 
-    this.schoolYear.startDate = new Date();
-    this.schoolYear.endDate = new Date();
-
     this.schoolYearForm = this.formBuilder.group({
       'schoolYear' : [{value: this.schoolYear.schoolYear, disabled: this.crudMode == 'Delete'}],
-      'startDate' : [{value: this.datePipe.transform(this.schoolYear.startDate, 'MMM dd, yyyy hh:mm a'), disabled: this.crudMode == 'Delete'},
+      'startDate' : [{value: this.datePipe.transform(this.schoolYear.startDate, 'MMM dd, yyyy'), disabled: this.crudMode == 'Delete'},
                       dateValidator],
-      'endDate' : [{value: this.datePipe.transform(this.schoolYear.endDate, 'MMM dd, yyyy hh:mm a'), disabled: this.crudMode == 'Delete'},
+      'endDate' : [{value: this.datePipe.transform(this.schoolYear.endDate, 'MMM dd, yyyy'), disabled: this.crudMode == 'Delete'},
                       dateValidator]
     })
     
@@ -60,7 +57,11 @@ export class DatatableCrudComponent implements OnInit {
 
   onRowSelect(event) {
     this.newSchoolYear = false;
-    this.schoolYear = this.cloneSchoolYear(event.data);
+    console.log(this.schoolYear)
+    //this.schoolYear = this.cloneSchoolYear(event.data);
+    this.populateDialog(this.schoolYearForm, event.data);
+    console.log(event.data)
+    console.log(this.schoolYear)
     this.displayDialog = true;
   }
 
@@ -70,13 +71,17 @@ export class DatatableCrudComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  save() {
+  onSubmit() {
     let schoolYears = [...this.schoolYears];
-    if(this.newSchoolYear)
-      schoolYears.push(this.schoolYear);
-    else
+    // console.log(this.newSchoolYear);
+    if(this.newSchoolYear) {
+      let schoolYear: SchoolYear = new SchoolYear();
+      console.log(this.schoolYearForm.get('schoolYear').value);
+      schoolYear.schoolYear = this.schoolYearForm.get('schoolYear').value;
+      schoolYears.push(schoolYear);
+    } else {
       schoolYears[this.findSelectedSchoolYearIndex()] = this.schoolYear;
-    
+    }
     this.schoolYears = schoolYears;
     this.schoolYear = null;
     this.displayDialog = false;
@@ -93,16 +98,18 @@ export class DatatableCrudComponent implements OnInit {
     }
     return schoolYear;
   }
+
+  populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear) {
+    schoolYearForm.controls['schoolYear'].setValue(schoolYear.schoolYear);
+    schoolYearForm.controls['startDate'].setValue(schoolYear.startDateFormatted);
+    schoolYearForm.controls['endDate'].setValue(schoolYear.endDateFormatted);
+  }
   
 }
 
 
-function dateValidator(control: FormControl): {[key: string]: any} {
-
-  // test only
-  const timestamp = control.value;
-
-
+function timestampValidator(control: FormControl): {[key: string]: any} {
+  const timestamp = control.value || '';
   const patternValid = Constants.TIMESTAMP_PATTERN.test(timestamp);
   // console.log('dateValidator(), patternValid: ', patternValid);
   const matches = timestamp.match(Constants.TIMESTAMP_PATTERN);
@@ -130,4 +137,31 @@ function dateValidator(control: FormControl): {[key: string]: any} {
   }
   
   return matches && timestampValid ? null : {invalidDate: true};
+}
+
+function dateValidator(control: FormControl): {[key: string]: any} {
+  const inputDate = control.value || '';
+  const patternValid = Constants.DATE_PATTERN.test(inputDate);
+  const matches = inputDate.match(Constants.DATE_PATTERN);
+  let dateValid = true;
+  if (matches) {
+    let [year, monthIndex, day] = [matches[3], Constants.MONTHS.indexOf(matches[1].toLowerCase()), matches[2]];
+    console.log('dateValidator(), time components: ', year, monthIndex, day);
+    if (monthIndex == -1 || day > 31) {
+      dateValid = false;
+    } else {
+      if ([1,3,5,7,8,10,12].indexOf(monthIndex+1) == -1 && day == 31) {
+        dateValid = false;
+      } else if (monthIndex+1 == 2) {
+          if (((year % 4 == 0 && year % 100) || year % 400 == 0) && day == 29) {
+              dateValid = true;
+          } else if (day > 28) {
+              dateValid = false;
+          }
+      }
+    }
+    console.log('dateValidator(), timestampValid: ', dateValid);
+  }
+  
+  return matches && dateValid ? null : {invalidDate: true};
 }

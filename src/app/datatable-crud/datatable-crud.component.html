@@ -30,10 +30,15 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete"></button>
-            <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+            <button type="submit" pButton icon="fa-close" label="Delete" [disabled]="!schoolYearForm.valid"></button>
+            <button type="submit" pButton icon="fa-check" label="Save" [disabled]="!schoolYearForm.valid"></button>
             <button pButton type="submit" label="Submit" [disabled]="!schoolYearForm.valid"></button>
         </div>
     </p-footer>
   </form>
+<!--<ul>
+  <li>{{ schoolYear.schoolYear }}</li>
+  <li>{{ schoolYear.startDate }}</li>
+  <li>{{ schoolYear.startDate }}</li>
+</ul>  -->
 </p-dialog>
