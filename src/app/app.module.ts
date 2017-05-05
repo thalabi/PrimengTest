@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
 import { InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule } from 'primeng/primeng';
@@ -30,7 +30,7 @@ import { DataService } from './data.service';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     HttpModule,
     AppRouting,
     BrowserAnimationsModule,
