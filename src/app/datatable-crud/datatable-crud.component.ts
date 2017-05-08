@@ -185,7 +185,7 @@ function dateValidator(control: FormControl): {[key: string]: any} {
     console.log('dateValidator(), timestampValid: ', dateValid);
   }
   
-  return matches && dateValid ? null : {invalidDate: true};
+  return matches && dateValid ? null : {dateValidatorMessage: "Date is invalid"};
 }
 
 function startAndEndDateValidator(formGroup: FormGroup): {[key: string]: any} {
