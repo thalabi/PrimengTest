@@ -13,9 +13,7 @@ import { Constants } from '../constants';
 export class DatatableCrudComponent implements OnInit {
 
   displayDialog: boolean;
-  schoolYear: SchoolYear = new SchoolYear();
   selectedSchoolYear: SchoolYear;
-  newSchoolYear: boolean;
   schoolYears: SchoolYear[];
 
   schoolYearForm : FormGroup;
@@ -29,6 +27,19 @@ export class DatatableCrudComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loadSchoolYears();
+
+    this.schoolYearForm = this.formBuilder.group({
+      'id': [''],
+      'schoolYear': ['', Validators.required],
+      'startDate': ['', dateValidator],
+      'endDate': ['', dateValidator],
+      'version': ['']
+    })
+    
+  }
+
+  loadSchoolYears() {
     this.dataService.getAllSchoolYears().subscribe({
       next: schoolYears => {
         this.schoolYears = schoolYears;
@@ -36,7 +47,6 @@ export class DatatableCrudComponent implements OnInit {
           this.schoolYears[i].startDateFormatted = this.datePipe.transform(this.schoolYears[i].startDate, 'MMM dd, yyyy');
           this.schoolYears[i].endDateFormatted = this.datePipe.transform(this.schoolYears[i].endDate, 'MMM dd, yyyy');
         }
-        console.log('schoolYears[]: ', this.schoolYears);
       },
       error: error => {
         console.error(error);
@@ -44,65 +54,76 @@ export class DatatableCrudComponent implements OnInit {
         //this.messageService.clear();
         //this.messageService.error(error);
       }});
-
-    this.schoolYearForm = this.formBuilder.group({
-      'schoolYear' : [{value: this.schoolYear.schoolYear, disabled: this.crudMode == 'Delete'}],
-      'startDate' : [{value: this.datePipe.transform(this.schoolYear.startDate, 'MMM dd, yyyy'), disabled: this.crudMode == 'Delete'},
-                      dateValidator],
-      'endDate' : [{value: this.datePipe.transform(this.schoolYear.endDate, 'MMM dd, yyyy'), disabled: this.crudMode == 'Delete'},
-                      dateValidator]
-    })
-    
   }
 
   onRowSelect(event) {
-    this.newSchoolYear = false;
-    console.log(this.schoolYear)
-    //this.schoolYear = this.cloneSchoolYear(event.data);
-    this.populateDialog(this.schoolYearForm, event.data);
-    console.log(event.data)
-    console.log(this.schoolYear)
     this.displayDialog = true;
   }
 
-  showDialogToAdd() {
-    this.newSchoolYear = true;
-    this.schoolYear = new SchoolYear();
+  showDialog(crudMode: string) {
+    this.crudMode = crudMode;
+    console.log('crudMode', crudMode);
+    console.log('this.crudMode', this.crudMode);
+    if (crudMode == 'Add') {
+      this.schoolYearForm = this.populateDialog(this.schoolYearForm, new SchoolYear());
+    } else {
+      this.schoolYearForm = this.populateDialog(this.schoolYearForm, this.selectedSchoolYear);
+    }
     this.displayDialog = true;
   }
 
   onSubmit() {
-    let schoolYears = [...this.schoolYears];
-    // console.log(this.newSchoolYear);
-    if(this.newSchoolYear) {
-      let schoolYear: SchoolYear = new SchoolYear();
-      console.log(this.schoolYearForm.get('schoolYear').value);
-      schoolYear.schoolYear = this.schoolYearForm.get('schoolYear').value;
-      schoolYears.push(schoolYear);
+    let schoolYear: SchoolYear = this.populateSchoolYear(this.schoolYearForm);
+    console.log('schoolYear', schoolYear);
+    if (this.crudMode != 'Delete') {
+      this.dataService.saveSchoolYear(schoolYear)
+      .subscribe({
+          error: error => {
+            console.error(error);
+            // this.messageService.clear();
+            // this.messageService.error(error);
+          },
+          complete: () => {
+            this.loadSchoolYears();
+          }
+      });
     } else {
-      schoolYears[this.findSelectedSchoolYearIndex()] = this.schoolYear;
+      this.dataService.deleteSchoolYear(schoolYear)
+      .subscribe({
+          error: error => {
+            console.error(error);
+            // this.messageService.clear();
+            // this.messageService.error(error);
+          },
+          complete: () => {
+            this.loadSchoolYears();
+          }
+      });
     }
-    this.schoolYears = schoolYears;
-    this.schoolYear = null;
+      this.displayDialog = false;
+  }
+
+  onCancel() {
     this.displayDialog = false;
   }
 
-  findSelectedSchoolYearIndex(): number {
-    return this.schoolYears.indexOf(this.selectedSchoolYear);
-  }
-
-  cloneSchoolYear(c: SchoolYear): SchoolYear {
-    let schoolYear = new SchoolYear();
-    for(let prop in c) {
-      schoolYear[prop] = c[prop];
-    }
-    return schoolYear;
-  }
-
-  populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear) {
+  populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear): FormGroup {
+    schoolYearForm.controls['id'].setValue(schoolYear.id);
     schoolYearForm.controls['schoolYear'].setValue(schoolYear.schoolYear);
     schoolYearForm.controls['startDate'].setValue(schoolYear.startDateFormatted);
     schoolYearForm.controls['endDate'].setValue(schoolYear.endDateFormatted);
+    schoolYearForm.controls['version'].setValue(schoolYear.version);
+    return schoolYearForm;
+  }
+
+  populateSchoolYear(schoolYearForm: FormGroup): SchoolYear {
+    let schoolYear = new SchoolYear();
+    schoolYear.id = schoolYearForm.get('id').value;
+    schoolYear.schoolYear = schoolYearForm.get('schoolYear').value;
+    schoolYear.startDate = new Date(schoolYearForm.get('startDate').value);
+    schoolYear.endDate = new Date(schoolYearForm.get('endDate').value);
+    schoolYear.version = schoolYearForm.get('version').value;
+    return schoolYear;
   }
   
 }

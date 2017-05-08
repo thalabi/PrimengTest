@@ -19,13 +19,41 @@ export class DataService {
     private http: Http
   ) { }
 
+  private httpHeaders(): Headers {
+    return new Headers({
+      //'Authorization': 'Bearer ' + this.sessionDataService.user.token,
+      'Content-Type': 'application/json'});
+  }
+
   getAllSchoolYears(): Observable<SchoolYear[]> {
-    return this.http.get(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/getAllSchoolYears"/*,
-                          {headers: this.httpHeaders()}*/)
+    return this.http.get(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/getAllSchoolYears",
+                          {headers: this.httpHeaders()})
           .map(response => {
             return response.json() as SchoolYear[];
           })
           .catch(this.handleError);
+  }
+
+  saveSchoolYear(schoolYear: SchoolYear): Observable<SchoolYear> {
+
+    console.log('in saveSchoolYear, schoolYear: ', schoolYear);
+    delete schoolYear.startDateFormatted;
+    delete schoolYear.endDateFormatted;
+    console.log('after pruning saveSchoolYear, schoolYear: ', schoolYear);
+    return this.http
+      .post(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/saveSchoolYear", JSON.stringify(schoolYear),
+              {headers: this.httpHeaders()})
+      .map(response => {
+        return response.json() as SchoolYear;
+      })
+      .catch(this.handleError);
+  }
+
+  deleteSchoolYear(schoolYear: SchoolYear) {
+
+    return this.http
+      .delete(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/deleteSchoolYearById/"+schoolYear.id, {headers: this.httpHeaders()})
+      .catch(this.handleError);
   }
 
   private handleError (response: Response | any) {
