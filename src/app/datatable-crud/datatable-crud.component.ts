@@ -35,7 +35,7 @@ export class DatatableCrudComponent implements OnInit {
       'startDate': ['', dateValidator],
       'endDate': ['', dateValidator],
       'version': ['']
-    })
+    }, {validator: startAndEndDateValidator})
     
   }
 
@@ -108,6 +108,7 @@ export class DatatableCrudComponent implements OnInit {
   }
 
   populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear): FormGroup {
+    schoolYearForm.reset();
     schoolYearForm.controls['id'].setValue(schoolYear.id);
     schoolYearForm.controls['schoolYear'].setValue(schoolYear.schoolYear);
     schoolYearForm.controls['startDate'].setValue(schoolYear.startDateFormatted);
@@ -185,4 +186,10 @@ function dateValidator(control: FormControl): {[key: string]: any} {
   }
   
   return matches && dateValid ? null : {invalidDate: true};
+}
+
+function startAndEndDateValidator(formGroup: FormGroup): {[key: string]: any} {
+  let startDate: Date = new Date(formGroup.controls['startDate'].value);
+  let endDate: Date = new Date(formGroup.controls['endDate'].value);
+  return startDate > endDate ? {startAndEndDateValidatorMessage: "start date is greater than end date"} : null;
 }
