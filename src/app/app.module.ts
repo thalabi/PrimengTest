@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
@@ -16,7 +16,8 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
 
 import { DataService } from './data.service';
-
+import { ConfigService } from './config.service';
+import { Http } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,13 @@ import { DataService } from './data.service';
     InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule
   ],
   providers: [
-    DataService
+    DataService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (configService: ConfigService) => () => configService.getRestUrl(),
+      deps: [DataService, Http],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
