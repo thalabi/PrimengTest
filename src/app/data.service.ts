@@ -4,6 +4,8 @@ import { Note } from './domain/Note';
 import { SchoolYear } from './domain/SchoolYear';
 import { Http, Headers, Response, ResponseContentType } from '@angular/http';
 import { Constants } from './constants';
+import { ConfigService } from './config/config.service';
+import { ApplicationProperties } from './config/application.properties';
 
 import { Observable } from 'rxjs/Observable';
 // Observable class extensions
@@ -15,9 +17,16 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class DataService {
 
+  serviceUrl: string;
+
   constructor(
-    private http: Http
-  ) { }
+    private http: Http,
+    private configService: ConfigService
+  ) {
+    const applicationProperties: ApplicationProperties = this.configService.getApplicationProperties();
+    this.serviceUrl = applicationProperties.serviceUrl;
+    console.log(this.serviceUrl);
+  }
 
   private httpHeaders(): Headers {
     return new Headers({
@@ -26,7 +35,7 @@ export class DataService {
   }
 
   getAllSchoolYears(): Observable<SchoolYear[]> {
-    return this.http.get(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/getAllSchoolYears",
+    return this.http.get(this.serviceUrl+"/schoolYear/getAllSchoolYears",
                           {headers: this.httpHeaders()})
           .map(response => {
             return response.json() as SchoolYear[];
@@ -41,7 +50,7 @@ export class DataService {
     delete schoolYear.endDateFormatted;
     console.log('after pruning saveSchoolYear, schoolYear: ', schoolYear);
     return this.http
-      .post(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/saveSchoolYear", JSON.stringify(schoolYear),
+      .post(this.serviceUrl+"/schoolYear/saveSchoolYear", JSON.stringify(schoolYear),
               {headers: this.httpHeaders()})
       .map(response => {
         return response.json() as SchoolYear;
@@ -52,7 +61,7 @@ export class DataService {
   deleteSchoolYear(schoolYear: SchoolYear) {
 
     return this.http
-      .delete(Constants.STUDENT_NOTES_SERVICE_URL+"/schoolYear/deleteSchoolYearById/"+schoolYear.id, {headers: this.httpHeaders()})
+      .delete(this.serviceUrl+"/schoolYear/deleteSchoolYearById/"+schoolYear.id, {headers: this.httpHeaders()})
       .catch(this.handleError);
   }
 

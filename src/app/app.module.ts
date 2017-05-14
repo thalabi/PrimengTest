@@ -16,7 +16,7 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
 
 import { DataService } from './data.service';
-import { ConfigService } from './config.service';
+import { ConfigService, configServiceLoadConfig } from './config/config.service';
 import { Http } from '@angular/http';
 
 @NgModule({
@@ -39,12 +39,8 @@ import { Http } from '@angular/http';
   ],
   providers: [
     DataService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (configService: ConfigService) => () => configService.getRestUrl(),
-      deps: [DataService, Http],
-      multi: true
-    }
+    ConfigService,
+    { provide: APP_INITIALIZER, useFactory: configServiceLoadConfig, deps: [ConfigService], multi: true }
   ],
   bootstrap: [AppComponent]
 })

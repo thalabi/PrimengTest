@@ -17,8 +17,8 @@
 </p-dataTable>
 
 <p-dialog header="School Year {{crudMode}}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true">
-  <form [formGroup]="schoolYearForm" (ngSubmit)="onSubmit(schoolYearForm.value)">
-    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid"> 
+  <form [formGroup]="schoolYearForm" (ngSubmit)="onSubmit()">
+    <div class="ui-grid ui-grid-responsive-pad ui-fluid"> 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="schoolYear">School year</label></div>
             <div class="ui-grid-col-5"><input pInputText id="schoolYear" formControlName="schoolYear" [readonly]="crudMode == 'Delete'"/></div>
