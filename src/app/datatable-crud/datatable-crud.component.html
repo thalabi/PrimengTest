@@ -32,7 +32,8 @@
         </div>
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="startDate">Start date</label></div>
-            <div class="ui-grid-col-5"><input pInputText id="startDate" formControlName="startDate"  [readonly]="crudMode == 'Delete'"/></div>
+            <div class="ui-grid-col-5"><input pInputText id="startDate" formControlName="startDate" 
+                [readonly]="crudMode == 'Delete'" (blur)="startDateOnBlur()"/></div>
             <div class="ui-grid-col-3">
                                       <div class="ui-message ui-messages-error ui-corner-all"
                                             *ngIf="!schoolYearForm.controls['startDate'].valid &&

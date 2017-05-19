@@ -107,6 +107,9 @@ export class DatatableCrudComponent implements OnInit {
     this.displayDialog = false;
   }
 
+  startDateOnBlur() {
+    console.log('startDateOnBlur()');
+  }
   populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear): FormGroup {
     schoolYearForm.reset();
     schoolYearForm.controls['id'].setValue(schoolYear.id);
