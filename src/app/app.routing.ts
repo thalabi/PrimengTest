@@ -2,6 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { InputTextComponent } from './input-text/input-text.component';
 import { DatatableBasicComponent } from './datatable-basic/datatable-basic.component';
+import { DatatableScrollableComponent } from './datatable-scrollable/datatable-scrollable.component';
 import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
@@ -11,6 +12,7 @@ const routes: Routes = [
     {path: '',  component: InputTextComponent},
     {path: 'inputText',  component: InputTextComponent},
     {path: 'datatableBasic', component: DatatableBasicComponent},
+    {path: 'datatableScrollable', component: DatatableScrollableComponent},
     {path: 'button', component: ButtonComponent},
     {path: 'dialog', component: DialogComponent},
     {path: 'datatableCrud', component: DatatableCrudComponent},

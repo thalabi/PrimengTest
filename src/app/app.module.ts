@@ -18,6 +18,7 @@ import { DatatableCrudComponent } from './datatable-crud/datatable-crud.componen
 import { DataService } from './data.service';
 import { ConfigService, configServiceLoadConfig } from './config/config.service';
 import { Http } from '@angular/http';
+import { DatatableScrollableComponent } from './datatable-scrollable/datatable-scrollable.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { Http } from '@angular/http';
     DatatableBasicComponent,
     ButtonComponent,
     DialogComponent,
-    DatatableCrudComponent
+    DatatableCrudComponent,
+    DatatableScrollableComponent
   ],
   imports: [
     BrowserModule,
