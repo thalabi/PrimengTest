@@ -21,8 +21,10 @@
     <div class="ui-grid ui-grid-responsive-pad ui-fluid"> 
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="schoolYear">School year</label></div>
-            <div class="ui-grid-col-5"><input pInputText id="schoolYear" formControlName="schoolYear" [readonly]="crudMode == 'Delete'"/></div>
-            <div class="ui-grid-col-3"><div class="ui-message ui-messages-error ui-corner-all"
+            <div class="ui-grid-col-8"><input pInputText id="schoolYear" formControlName="schoolYear" [readonly]="crudMode == 'Delete'"/></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12"><div class="ui-message ui-messages-error ui-corner-all"
                                             *ngIf="!schoolYearForm.controls['schoolYear'].valid &&
                                                     schoolYearForm.controls['schoolYear'].dirty">
                                             <i class="fa fa-close"></i>
@@ -32,22 +34,32 @@
         </div>
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="startDate">Start date</label></div>
-            <div class="ui-grid-col-5"><input pInputText id="startDate" formControlName="startDate" 
+            <div class="ui-grid-col-8"><input pInputText id="startDate" formControlName="startDate" 
                 [readonly]="crudMode == 'Delete'" (blur)="startDateOnBlur()"/></div>
-            <div class="ui-grid-col-3">
-                                      <div class="ui-message ui-messages-error ui-corner-all"
-                                            *ngIf="!schoolYearForm.controls['startDate'].valid &&
-                                                    schoolYearForm.controls['startDate'].dirty">
-                                            <i class="fa fa-close"></i>
-                                            {{schoolYearForm.controls['startDate'].errors['dateValidatorMessage']}}
-                                       </div>
-
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <div class="ui-message ui-messages-error ui-corner-all"
+                    *ngIf="!schoolYearForm.controls['startDate'].valid &&
+                            schoolYearForm.controls['startDate'].dirty">
+                    <i class="fa fa-close"></i>
+                    {{schoolYearForm.controls['startDate'].errors['dateValidatorMessage']}}
+                </div>
             </div>
         </div>
         <div class="ui-grid-row">
             <div class="ui-grid-col-4"><label for="endDate">End date</label></div>
-            <div class="ui-grid-col-5"><input pInputText id="endDate" formControlName="endDate"  [readonly]="crudMode == 'Delete'"/></div>
-            <div class="ui-grid-col-3"></div>
+            <div class="ui-grid-col-8"><input pInputText id="endDate" formControlName="endDate"  [readonly]="crudMode == 'Delete'"/></div>
+        </div>
+        <div class="ui-grid-row">
+            <div class="ui-grid-col-12">
+                <div class="ui-message ui-messages-error ui-corner-all"
+                    *ngIf="!schoolYearForm.controls['endDate'].valid &&
+                            schoolYearForm.controls['endDate'].dirty">
+                    <i class="fa fa-close"></i>
+                    {{schoolYearForm.controls['endDate'].errors['dateValidatorMessage']}}
+                </div>
+            </div>
         </div>
     </div>
     <p-footer>

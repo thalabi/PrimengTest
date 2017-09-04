@@ -1,0 +1,4 @@
+To installed current version: npm list primeng
+To list all versions: npm view primeng
+To delete installed version: npm uninstall primeng --save
+To install newest version: npm install primeng --save
