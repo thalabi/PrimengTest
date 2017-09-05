@@ -28,16 +28,12 @@ export class DatatableCrudComponent implements OnInit {
 
   ngOnInit() {
     this.loadSchoolYears();
-
-    this.schoolYearForm = this.formBuilder.group({
-      'id': [''],
-      'schoolYear': ['', Validators.required],
-      'startDate': ['', dateValidator],
-      'endDate': ['', dateValidator],
-      'version': ['']
-    }, {validator: startAndEndDateValidator})
-    
-  }
+    this.selectedSchoolYear = new SchoolYear();
+    this.selectedSchoolYear.schoolYear = '';
+    this.selectedSchoolYear.startDate = new Date();
+    this.selectedSchoolYear.endDate = new Date();
+    console.log(this.selectedSchoolYear);
+}
 
   loadSchoolYears() {
     this.dataService.getAllSchoolYears().subscribe({
@@ -56,24 +52,26 @@ export class DatatableCrudComponent implements OnInit {
       }});
   }
 
-  onRowSelect(event) {
-    this.displayDialog = true;
-  }
-
   showDialog(crudMode: string) {
     this.crudMode = crudMode;
     console.log('crudMode', crudMode);
     console.log('this.crudMode', this.crudMode);
     if (crudMode == 'Add') {
-      this.schoolYearForm = this.populateDialog(this.schoolYearForm, new SchoolYear());
+      this.selectedSchoolYear = new SchoolYear();
+      this.selectedSchoolYear.schoolYear = '';
+      this.selectedSchoolYear.startDate = undefined;
+      this.selectedSchoolYear.endDate = undefined;
     } else {
-      this.schoolYearForm = this.populateDialog(this.schoolYearForm, this.selectedSchoolYear);
-    }
+      //this.selectedSchoolYear.startDate = new Date(this.selectedSchoolYear.startDate);
+      //this.selectedSchoolYear.endDate = new Date(this.selectedSchoolYear.endDate);
+      console.log(this.selectedSchoolYear);
+      }
     this.displayDialog = true;
   }
 
   onSubmit() {
-    let schoolYear: SchoolYear = this.populateSchoolYear(this.schoolYearForm);
+    // let schoolYear: SchoolYear = this.populateSchoolYear(this.schoolYearForm);
+    let schoolYear: SchoolYear = this.selectedSchoolYear;
     console.log('schoolYear', schoolYear);
     if (this.crudMode != 'Delete') {
       this.dataService.saveSchoolYear(schoolYear)
@@ -110,25 +108,25 @@ export class DatatableCrudComponent implements OnInit {
   startDateOnBlur() {
     console.log('startDateOnBlur()');
   }
-  populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear): FormGroup {
-    schoolYearForm.reset();
-    schoolYearForm.controls['id'].setValue(schoolYear.id);
-    schoolYearForm.controls['schoolYear'].setValue(schoolYear.schoolYear);
-    schoolYearForm.controls['startDate'].setValue(schoolYear.startDateFormatted);
-    schoolYearForm.controls['endDate'].setValue(schoolYear.endDateFormatted);
-    schoolYearForm.controls['version'].setValue(schoolYear.version);
-    return schoolYearForm;
-  }
+  // populateDialog(schoolYearForm: FormGroup, schoolYear: SchoolYear): FormGroup {
+  //   schoolYearForm.reset();
+  //   schoolYearForm.controls['id'].setValue(schoolYear.id);
+  //   schoolYearForm.controls['schoolYear'].setValue(schoolYear.schoolYear);
+  //   schoolYearForm.controls['startDate'].setValue(schoolYear.startDateFormatted);
+  //   schoolYearForm.controls['endDate'].setValue(schoolYear.endDateFormatted);
+  //   schoolYearForm.controls['version'].setValue(schoolYear.version);
+  //   return schoolYearForm;
+  // }
 
-  populateSchoolYear(schoolYearForm: FormGroup): SchoolYear {
-    let schoolYear = new SchoolYear();
-    schoolYear.id = schoolYearForm.get('id').value;
-    schoolYear.schoolYear = schoolYearForm.get('schoolYear').value;
-    schoolYear.startDate = new Date(schoolYearForm.get('startDate').value);
-    schoolYear.endDate = new Date(schoolYearForm.get('endDate').value);
-    schoolYear.version = schoolYearForm.get('version').value;
-    return schoolYear;
-  }
+  // populateSchoolYear(schoolYearForm: FormGroup): SchoolYear {
+  //   let schoolYear = new SchoolYear();
+  //   schoolYear.id = schoolYearForm.get('id').value;
+  //   schoolYear.schoolYear = schoolYearForm.get('schoolYear').value;
+  //   schoolYear.startDate = new Date(schoolYearForm.get('startDate').value);
+  //   schoolYear.endDate = new Date(schoolYearForm.get('endDate').value);
+  //   schoolYear.version = schoolYearForm.get('version').value;
+  //   return schoolYear;
+  // }
   
 }
 

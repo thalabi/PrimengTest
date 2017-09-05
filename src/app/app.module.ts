@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
-import { InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule } from 'primeng/primeng';
+import { InputTextModule, DataTableModule, ButtonModule, DialogModule, CalendarModule, SharedModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -37,7 +37,7 @@ import { DatatableScrollableComponent } from './datatable-scrollable/datatable-s
     HttpModule,
     AppRouting,
     BrowserAnimationsModule,
-    InputTextModule, DataTableModule, ButtonModule, DialogModule, SharedModule
+    InputTextModule, DataTableModule, ButtonModule, DialogModule, CalendarModule, SharedModule
   ],
   providers: [
     DataService,
