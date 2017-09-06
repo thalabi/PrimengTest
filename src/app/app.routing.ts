@@ -6,6 +6,7 @@ import { DatatableScrollableComponent } from './datatable-scrollable/datatable-s
 import { ButtonComponent } from './button/button.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DatatableCrudComponent } from './datatable-crud/datatable-crud.component';
+import { PicklistComponent } from './picklist/picklist.component';
 import { _404Component } from './404.component';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
     {path: 'button', component: ButtonComponent},
     {path: 'dialog', component: DialogComponent},
     {path: 'datatableCrud', component: DatatableCrudComponent},
+    {path: 'picklist', component: PicklistComponent},
     {path: '**',            component: _404Component}
 ]
 

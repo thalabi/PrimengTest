@@ -3,7 +3,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule  } from '@angular/platform-browser/animations';
-import { InputTextModule, DataTableModule, ButtonModule, DialogModule, CalendarModule, SharedModule } from 'primeng/primeng';
+import { InputTextModule, DataTableModule, ButtonModule, DialogModule, CalendarModule, PickListModule, SharedModule } from 'primeng/primeng';
 
 import { AppComponent } from './app.component';
 import { AppRouting } from './app.routing';
@@ -19,6 +19,7 @@ import { DataService } from './data.service';
 import { ConfigService, configServiceLoadConfig } from './config/config.service';
 import { Http } from '@angular/http';
 import { DatatableScrollableComponent } from './datatable-scrollable/datatable-scrollable.component';
+import { PicklistComponent } from './picklist/picklist.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DatatableScrollableComponent } from './datatable-scrollable/datatable-s
     ButtonComponent,
     DialogComponent,
     DatatableCrudComponent,
-    DatatableScrollableComponent
+    DatatableScrollableComponent,
+    PicklistComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,7 @@ import { DatatableScrollableComponent } from './datatable-scrollable/datatable-s
     HttpModule,
     AppRouting,
     BrowserAnimationsModule,
-    InputTextModule, DataTableModule, ButtonModule, DialogModule, CalendarModule, SharedModule
+    InputTextModule, DataTableModule, ButtonModule, DialogModule, CalendarModule, PickListModule, SharedModule
   ],
   providers: [
     DataService,

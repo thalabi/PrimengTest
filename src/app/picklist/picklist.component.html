@@ -1,0 +1,10 @@
+<p-pickList [source]="schoolYearsSource" [target]="schoolYearsTarget"
+  sourceHeader="Available Students" targetHeader="2017-2018 Students"
+  [showSourceControls]="false" [showTargetControls]="false">
+  <ng-template let-schoolYear pTemplate="item">
+      <div class="ui-helper-clearfix">
+          <div style="font-size:14px;float:right;margin:15px 5px 0 0">
+            {{schoolYear.schoolYear}} - {{schoolYear.startDate|date:'mediumDate'}} - {{schoolYear.endDate|date:'mediumDate'}}</div>
+      </div>
+  </ng-template>
+</p-pickList>
