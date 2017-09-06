@@ -1,69 +1,57 @@
 <p-dataTable [value]="schoolYears" selectionMode="single" scrollable="true" scrollHeight="200px"
   [(selection)]="selectedSchoolYear" dataKey="id"
+  (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"
      [responsive]="true">
     <p-header>School Year Maintenance</p-header>
     <p-column field="schoolYear" header="Label"></p-column>
-    <p-column field="startDateFormatted" header="Start"></p-column>
-    <p-column field="endDateFormatted" header="End"></p-column>
+    <p-column field="startDate" header="Start">
+        <ng-template let-student="rowData" pTemplate="body">
+            <span>{{student.startDate|date:'mediumDate'}}</span>
+        </ng-template>        
+    </p-column>
+    <p-column field="endDate" header="End">
+        <ng-template let-student="rowData" pTemplate="body">
+            <span>{{student.endDate|date:'mediumDate'}}</span>
+        </ng-template>        
+    </p-column>
     <p-footer><div class="ui-helper-clearfix" style="width:100%">
-                <button type="button" pButton icon="fa-plus" style="float:left"
-                  (click)="showDialog('Add')" label="Add"></button>
-                <button type="button" pButton icon="fa-edit" style="float:left"
-                  (click)="showDialog('Modify')" label="Modify" [disabled]="!selectedSchoolYear"></button>
-                <button type="button" pButton icon="fa-remove" style="float:left"
-                  (click)="showDialog('Delete')" label="Delete" [disabled]="!selectedSchoolYear"></button>
-              </div>
+        <button type="button" pButton icon="fa-plus" style="float:left"
+            (click)="showDialog('Add')" label="Add"></button>
+        <button type="button" pButton icon="fa-edit" style="float:left"
+            (click)="showDialog('Modify')" label="Modify" [disabled]="modifyAndDeleteButtonsDisable"></button>
+        <button type="button" pButton icon="fa-remove" style="float:left"
+            (click)="showDialog('Delete')" label="Delete" [disabled]="modifyAndDeleteButtonsDisable"></button>
+        </div>
     </p-footer>
 </p-dataTable>
 
 <p-dialog header="School Year {{crudMode}}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade"
     [modal]="true">
-  <!-- <form [formGroup]="schoolYearForm" (ngSubmit)="onSubmit()"> -->
       <div class="ui-g">
-            <div class="ui-g-4"><label for="schoolYear">School year</label></div>
-            <div class="ui-g-8"><input pInputText id="schoolYear" [value]="selectedSchoolYear.schoolYear"
-                [readonly]="crudMode == 'Delete'"/></div>
-            <div class="ui-g-4"><label for="startDate">Start date</label></div>
-            <div class="ui-g-8">
-                <p-calendar [(ngModel)]="selectedSchoolYear.startDate" [monthNavigator]="true" [yearNavigator]="true"
-                    yearRange="2015:2030" dateFormat="M d, yy" [showIcon]="true" readonlyInput="readonlyInput"
-                    id="startDateId" appendTo="body"></p-calendar></div>
-      </div>
-      <!--  <div class="ui-grid-row">
-            <div class="ui-grid-col-12">
-                <div class="ui-message ui-messages-error ui-corner-all"
-                    *ngIf="!schoolYearForm.controls['startDate'].valid &&
-                            schoolYearForm.controls['startDate'].dirty">
-                    <i class="fa fa-close"></i>
-                    {{schoolYearForm.controls['startDate'].errors['dateValidatorMessage']}}
-                </div>
+        <div class="ui-g-2"><label for="schoolYear">School year</label></div>
+        <div class="ui-g-10"><input pInputText id="schoolYear" [(ngModel)]="selectedSchoolYear.schoolYear"
+            [readonly]="crudMode == 'Delete'"/></div>
+        <div class="ui-g-2"><label for="startDateId">Start date</label></div>
+        <div class="ui-g-10">
+            <p-calendar [(ngModel)]="selectedSchoolYear.startDate" [monthNavigator]="true" [yearNavigator]="true"
+                yearRange="2015:2030" dateFormat="M d, yy" [showIcon]="true" readonlyInput="readonlyInput"
+                id="startDateId" [disabled]="crudMode == 'Delete'" appendTo="body"></p-calendar></div>
+        <div class="ui-g-2"><label for="endDateId">End date</label></div>
+        <div class="ui-g-10">
+            <p-calendar [(ngModel)]="selectedSchoolYear.endDate" [monthNavigator]="true" [yearNavigator]="true"
+                yearRange="2015:2030" dateFormat="M d, yy" [showIcon]="true" readonlyInput="readonlyInput"
+                id="endDateId" [disabled]="crudMode == 'Delete'" appendTo="body"></p-calendar></div>
+        <p-footer>
+            <div class="ui-g-6">
+                <!-- TODO replace disabled logic with a function -->
+                <button pButton type="submit" (click)="onSubmit()" label="Submit"
+                    [disabled]="(selectedSchoolYear.schoolYear == null ||
+                                    selectedSchoolYear.startDate == null || selectedSchoolYear.endDate == null) &&
+                                 (crudMode == 'Add' || crudMode == 'Modify')"></button>
             </div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-4"><label for="endDate">End date</label></div>
-            <div class="ui-grid-col-8"><input pInputText id="endDate" formControlName="endDate"  [readonly]="crudMode == 'Delete'"/></div>
-        </div>
-        <div class="ui-grid-row">
-            <div class="ui-grid-col-12">
-                <div class="ui-message ui-messages-error ui-corner-all"
-                    *ngIf="!schoolYearForm.controls['endDate'].valid &&
-                            schoolYearForm.controls['endDate'].dirty">
-                    <i class="fa fa-close"></i>
-                    {{schoolYearForm.controls['endDate'].errors['dateValidatorMessage']}}
-                </div>
+            <div class="ui-g-6">
+                <button pButton type="reset" label="Cancel" (click)="onCancel()"></button>
             </div>
-        </div> -->
-    <!-- </div> -->
-    <p-footer>
-        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button pButton type="button" label="Cancel" (click)="onCancel()"></button>
-            <button pButton type="submit" label="Submit" [disabled]="!selectedSchoolYear.schoolYear != null && (crudMode == 'Add' || crudMode == 'Modify')"></button>
-        </div>
-    </p-footer>
-  <!-- </form> -->
-<!--<ul>
-  <li>{{ schoolYear.schoolYear }}</li>
-  <li>{{ schoolYear.startDate }}</li>
-  <li>{{ schoolYear.startDate }}</li>
-</ul>  -->
+            </p-footer>
+    </div>
 </p-dialog>

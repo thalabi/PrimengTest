@@ -38,7 +38,12 @@ export class DataService {
     return this.http.get(this.serviceUrl+"/schoolYear/getAllSchoolYears",
                           {headers: this.httpHeaders()})
           .map(response => {
-            return response.json() as SchoolYear[];
+            let schoolYears = response.json() as SchoolYear[];
+            schoolYears.forEach(schoolYear => {
+              schoolYear.startDate = new Date(schoolYear.startDate);
+              schoolYear.endDate = new Date(schoolYear.endDate);
+            });
+            return schoolYears;
           })
           .catch(this.handleError);
   }
@@ -46,9 +51,6 @@ export class DataService {
   saveSchoolYear(schoolYear: SchoolYear): Observable<SchoolYear> {
 
     console.log('in saveSchoolYear, schoolYear: ', schoolYear);
-    delete schoolYear.startDateFormatted;
-    delete schoolYear.endDateFormatted;
-    console.log('after pruning saveSchoolYear, schoolYear: ', schoolYear);
     return this.http
       .post(this.serviceUrl+"/schoolYear/saveSchoolYear", JSON.stringify(schoolYear),
               {headers: this.httpHeaders()})
